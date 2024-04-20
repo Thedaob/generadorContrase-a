@@ -1,10 +1,22 @@
 import random
+import string
 
 def generar_contrasena(palabra):
+    # Longitud mínima de la contraseña
+    longitud_minima = 8
+
     # Listas de números y símbolos para elegir
     numeros = '0123456789'
     simbolos = '!*()_+-;:'
-
+    
+    # Verificar que la palabra tenga al menos una letra
+    if not any(char.isalpha() for char in palabra):
+        raise ValueError("La palabra debe contener al menos una letra.")
+    
+    # Verificar longitud mínima
+    while len(palabra) < longitud_minima:
+        palabra += random.choice(string.ascii_letters)
+    
     # Convertir la palabra en una lista para manipularla
     caracteres = list(palabra)
 
@@ -25,6 +37,11 @@ def generar_contrasena(palabra):
     return contrasena
 
 # Uso de la función
-palabra_usuario = input("Ingresa la palabra para generar tu contraseña: ")
-contrasena_generada = generar_contrasena(palabra_usuario)
-print(f"Tu nueva contraseña es: {contrasena_generada}")
+while True:
+    palabra_usuario = input("Ingresa la palabra para generar tu contraseña: ")
+    try:
+        contrasena_generada = generar_contrasena(palabra_usuario)
+        print(f"Tu nueva contraseña es: {contrasena_generada}")
+        break
+    except ValueError as e:
+        print(e)
